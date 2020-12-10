@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NzTableFilterFn, NzTableFilterList, NzTableSortFn, NzTableSortOrder } from 'ng-zorro-antd/table';
-
+import { SportingEvent } from 'src/app/models/sporting-events.model';
+import { SportingEventsService} from '../../services/sporting-events.service'
 interface DataItem {
   name: string;
   sport: string;
@@ -23,6 +24,12 @@ interface ColumnItem {
 })
 export class SportingEventsComponent  {
 
+  constructor(private sportingEventService: SportingEventsService)
+  {
+
+  }
+  
+  
   listOfColumns: ColumnItem[] = [
     {
       name: 'Event',
@@ -105,6 +112,17 @@ export class SportingEventsComponent  {
       item.sortOrder = null;
     });
     this.resetFilters();
+  }
+
+  ngOnInit():void{
+    console.log("oliwisx22")
+
+    this.sportingEventService.getSportingEvents()
+    .subscribe(res=>{
+      this.sportingEventService.sportingEvents = res as SportingEvent[]
+    
+    })
+
   }
 
 }
